@@ -716,8 +716,10 @@ NC3_inq_var(int ncid,
 
 	if(name != NULL)
 	{
-		(void) strncpy(name, varp->name->cp, varp->name->nchars);
-		name[varp->name->nchars] = 0;
+        size_t copy_len = varp->name->nchars < NC_MAX_NAME
+                          ? varp->name->nchars : NC_MAX_NAME;
+        (void) strncpy(name, varp->name->cp, copy_len);
+        name[copy_len] = 0;
 	}
 
 	if(typep != 0)
